@@ -1,0 +1,320 @@
+package Master;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+import java.awt.Color;
+
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+import javax.swing.DebugGraphics;
+
+
+public class GuarantorMaster extends JFrame {
+	
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
+	private JTextField textField_10;
+	private JTextField textField_11;
+	private JTextField textField_12;
+	private JTextField textField_13;
+	private JTextField textField_14;
+	private JTextField textField_15;
+	private JTextField textField_16;
+
+	
+	  public void centerFrame() {
+
+	      
+	}
+	  
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuarantorMaster frame = new GuarantorMaster();
+				
+					//frame.setLocationByPlatform(true);
+					frame.setSize(760,500);
+					frame.setAlwaysOnTop(true);
+					frame.setLocation(300, 100);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+  
+	
+	/**
+	 * Create the frame.
+	 */
+	public GuarantorMaster() {
+		setTitle("Guarantor Master");
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 806, 531);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel label = new JLabel("CustomerId");
+		label.setBounds(10, 14, 92, 14);
+		contentPane.add(label);
+		
+		textField = new JTextField();
+		textField.setToolTipText("You cannot enter");
+		textField.setText((String) null);
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(140, 11, 391, 20);
+		contentPane.add(textField);
+		
+		JLabel label_1 = new JLabel("Name of Person *");
+		label_1.setBounds(10, 44, 133, 14);
+		contentPane.add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("Enter Full Name");
+		textField_1.setColumns(10);
+		textField_1.setBounds(140, 41, 391, 20);
+		contentPane.add(textField_1);
+		
+		JLabel label_2 = new JLabel("Father's Name");
+		label_2.setBounds(10, 74, 102, 14);
+		contentPane.add(label_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setText((String) null);
+		textField_2.setColumns(10);
+		textField_2.setBounds(140, 71, 391, 20);
+		contentPane.add(textField_2);
+		
+		JLabel label_3 = new JLabel("City");
+		label_3.setBounds(10, 162, 46, 14);
+		contentPane.add(label_3);
+		
+		JLabel label_4 = new JLabel("Address");
+		label_4.setBounds(10, 102, 80, 14);
+		contentPane.add(label_4);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setText((String) null);
+		textArea.setLineWrap(true);
+		textArea.setDebugGraphicsOptions(DebugGraphics.NONE_OPTION);
+		textArea.setColumns(10);
+		textArea.setBorder(UIManager.getBorder("TextField.border"));
+		textArea.setBounds(140, 99, 391, 49);
+		contentPane.add(textArea);
+		
+		textField_3 = new JTextField();
+		textField_3.setText((String) null);
+		textField_3.setColumns(10);
+		textField_3.setBounds(140, 159, 120, 20);
+		contentPane.add(textField_3);
+		
+		JLabel label_5 = new JLabel("Pin");
+		label_5.setBounds(319, 165, 46, 14);
+		contentPane.add(label_5);
+		
+		textField_4 = new JTextField();
+		textField_4.setText((String) null);
+		textField_4.setColumns(10);
+		textField_4.setBounds(411, 159, 120, 20);
+		contentPane.add(textField_4);
+		
+		JLabel label_6 = new JLabel("Phone");
+		label_6.setBounds(10, 192, 46, 14);
+		contentPane.add(label_6);
+		
+		textField_5 = new JTextField();
+		textField_5.setText((String) null);
+		textField_5.setColumns(10);
+		textField_5.setBounds(140, 189, 120, 20);
+		contentPane.add(textField_5);
+		
+		JLabel label_7 = new JLabel("Alternate Phone");
+		label_7.setHorizontalAlignment(SwingConstants.CENTER);
+		label_7.setBounds(290, 192, 111, 14);
+		contentPane.add(label_7);
+		
+		textField_6 = new JTextField();
+		textField_6.setText((String) null);
+		textField_6.setColumns(10);
+		textField_6.setBounds(411, 189, 120, 20);
+		contentPane.add(textField_6);
+		
+		JLabel label_8 = new JLabel("Mobile");
+		label_8.setBounds(10, 223, 46, 14);
+		contentPane.add(label_8);
+		
+		textField_7 = new JTextField();
+		textField_7.setText((String) null);
+		textField_7.setColumns(10);
+		textField_7.setBounds(140, 220, 120, 20);
+		contentPane.add(textField_7);
+		
+		JLabel label_9 = new JLabel("Mobile");
+		label_9.setBounds(319, 223, 46, 14);
+		contentPane.add(label_9);
+		
+		textField_8 = new JTextField();
+		textField_8.setText((String) null);
+		textField_8.setColumns(10);
+		textField_8.setBounds(411, 220, 120, 20);
+		contentPane.add(textField_8);
+		
+		JLabel label_10 = new JLabel("Birth Date ");
+		label_10.setToolTipText("YYYY/MM/DD");
+		label_10.setBounds(10, 253, 102, 14);
+		contentPane.add(label_10);
+		
+		textField_9 = new JTextField();
+		textField_9.setText((String) null);
+		textField_9.setColumns(10);
+		textField_9.setBounds(140, 250, 120, 20);
+		contentPane.add(textField_9);
+		
+		JLabel label_11 = new JLabel("Anniversary");
+		label_11.setBounds(319, 253, 102, 14);
+		contentPane.add(label_11);
+		
+		textField_10 = new JTextField();
+		textField_10.setText((String) null);
+		textField_10.setColumns(10);
+		textField_10.setBounds(411, 250, 120, 20);
+		contentPane.add(textField_10);
+		
+		JLabel label_12 = new JLabel("Email");
+		label_12.setBounds(10, 283, 46, 14);
+		contentPane.add(label_12);
+		
+		textField_11 = new JTextField();
+		textField_11.setText((String) null);
+		textField_11.setColumns(10);
+		textField_11.setBounds(140, 280, 391, 20);
+		contentPane.add(textField_11);
+		
+		JLabel label_13 = new JLabel("Referred By");
+		label_13.setBounds(10, 313, 120, 14);
+		contentPane.add(label_13);
+		
+		textField_12 = new JTextField();
+		textField_12.setText((String) null);
+		textField_12.setColumns(10);
+		textField_12.setBounds(140, 310, 391, 20);
+		contentPane.add(textField_12);
+		
+		JLabel label_14 = new JLabel("Mobile");
+		label_14.setBounds(10, 343, 46, 14);
+		contentPane.add(label_14);
+		
+		textField_13 = new JTextField();
+		textField_13.setText((String) null);
+		textField_13.setColumns(10);
+		textField_13.setBounds(140, 340, 120, 20);
+		contentPane.add(textField_13);
+		
+		JLabel label_15 = new JLabel("Phone");
+		label_15.setBounds(319, 343, 46, 14);
+		contentPane.add(label_15);
+		
+		JLabel label_16 = new JLabel("Interest Rate");
+		label_16.setBounds(10, 373, 92, 14);
+		contentPane.add(label_16);
+		
+		textField_14 = new JTextField();
+		textField_14.setColumns(10);
+		textField_14.setBounds(140, 370, 120, 20);
+		contentPane.add(textField_14);
+		
+		JLabel label_17 = new JLabel("Penalty");
+		label_17.setBounds(319, 373, 46, 14);
+		contentPane.add(label_17);
+		
+		textField_15 = new JTextField();
+		textField_15.setColumns(10);
+		textField_15.setBounds(411, 370, 120, 20);
+		contentPane.add(textField_15);
+		
+		JLabel label_18 = new JLabel("Remarks");
+		label_18.setBounds(10, 403, 80, 14);
+		contentPane.add(label_18);
+		
+		textField_16 = new JTextField();
+		textField_16.setColumns(10);
+		textField_16.setBounds(140, 400, 391, 41);
+		contentPane.add(textField_16);
+		
+		JButton button = new JButton("Save");
+		button.setBounds(10, 452, 71, 23);
+		contentPane.add(button);
+		
+		JButton button_1 = new JButton("Left");
+		button_1.setBounds(101, 452, 66, 23);
+		contentPane.add(button_1);
+		
+		JButton button_2 = new JButton("Find");
+		button_2.setBounds(187, 452, 66, 23);
+		contentPane.add(button_2);
+		
+		JButton button_3 = new JButton("Right");
+		button_3.setBounds(280, 452, 66, 23);
+		contentPane.add(button_3);
+		
+		JButton button_4 = new JButton("Delete");
+		button_4.setEnabled(false);
+		button_4.setBounds(371, 452, 71, 23);
+		contentPane.add(button_4);
+		
+		JButton button_5 = new JButton("Clear");
+		button_5.setBounds(465, 452, 66, 23);
+		contentPane.add(button_5);
+		
+		JLabel label_19 = new JLabel("");
+		label_19.setOpaque(true);
+		label_19.setBorder(UIManager.getBorder("TextField.border"));
+		label_19.setBackground(Color.WHITE);
+		label_19.setBounds(568, 14, 140, 140);
+		contentPane.add(label_19);
+		
+		JLabel label_20 = new JLabel("Photo");
+		label_20.setHorizontalAlignment(SwingConstants.CENTER);
+		label_20.setBounds(565, 170, 143, 14);
+		contentPane.add(label_20);
+	}
+}

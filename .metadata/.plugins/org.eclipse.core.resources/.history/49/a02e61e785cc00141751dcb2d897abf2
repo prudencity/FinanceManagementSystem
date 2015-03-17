@@ -1,0 +1,154 @@
+package Master;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class BankMaster extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField bankname_bm_text;
+	private JTextField accountname_bm_text;
+	private JTextField bankaddress_bm_text;
+	private static Statement st;
+	private JLabel lbl_validate;
+	private JButton btnValidate;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BankMaster frame = new BankMaster();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void clearScreen() {
+		bankname_bm_text.setText(null);
+		bankaddress_bm_text.setText(null);
+		accountname_bm_text.setText(null);
+	}
+	
+	/**
+	 * Create the frame.
+	 */
+	public BankMaster() {
+		setTitle("Bank Master");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 453, 262);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNameOfThe = new JLabel("Name of the Bank");
+		lblNameOfThe.setBounds(10, 20, 100, 14);
+		contentPane.add(lblNameOfThe);
+		
+		bankname_bm_text = new JTextField();
+		bankname_bm_text.setBounds(132, 17, 239, 20);
+		contentPane.add(bankname_bm_text);
+		bankname_bm_text.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Bank Address");
+		lblNewLabel.setBounds(10, 60, 100, 14);
+		contentPane.add(lblNewLabel);
+		
+		accountname_bm_text = new JTextField();
+		accountname_bm_text.setBounds(132, 97, 239, 20);
+		contentPane.add(accountname_bm_text);
+		accountname_bm_text.setColumns(10);
+		
+		JLabel lblAccountNumber = new JLabel("Account Number");
+		lblAccountNumber.setBounds(10, 100, 100, 14);
+		contentPane.add(lblAccountNumber);
+		
+		bankaddress_bm_text = new JTextField();
+		bankaddress_bm_text.setColumns(10);
+		bankaddress_bm_text.setBounds(132, 57, 239, 20);
+		contentPane.add(bankaddress_bm_text);
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String bankname=bankname_bm_text.getText().toString();
+				if(bankname.equals(null))
+					lbl_validate.setText("Enter Name of the Bank");
+				String bankaddress=bankaddress_bm_text.getText().toString();
+				String accountnumber=accountname_bm_text.getText().toString();
+				if(bankname!=null)
+				{
+					
+				
+			try {
+				
+				databaseConnectivity();
+				int res=st.executeUpdate("INSERT INTO `fms`.`bank_master` (`BankName`, `BankAddress`, ` BankAccountNumber`) VALUES ('"+bankname+"', '"+bankaddress+"', '"+accountnumber+"');");
+				if(res==1)
+					JOptionPane.showMessageDialog(btnSave, "Data Saved Sucessfully");
+					clearScreen();
+			} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			}
+			}
+			
+		});
+		btnSave.setBounds(10, 132, 89, 23);
+		contentPane.add(btnSave);
+		
+		lbl_validate = new JLabel("");
+		lbl_validate.setBounds(132, 136, 239, 14);
+		contentPane.add(lbl_validate);
+		
+		btnValidate = new JButton("Validate");
+		btnValidate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String bankname=bankname_bm_text.getText().toString();
+				
+				
+					lbl_validate.setText("Enter Name of the Bank");
+			}
+		});
+		btnValidate.setBounds(10, 166, 89, 23);
+		contentPane.add(btnValidate);
+	}
+	
+	public static Statement databaseConnectivity() throws ClassNotFoundException,
+	SQLException {
+		Connection conn;
+		String dbuser = "root";
+		String dbpassw = "mysql";
+		String databasename = "fms";
+		String url = "jdbc:mysql://localhost/" + databasename;
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection (url, dbuser, dbpassw);
+		st = conn.createStatement();
+		return st;
+	}
+}
+

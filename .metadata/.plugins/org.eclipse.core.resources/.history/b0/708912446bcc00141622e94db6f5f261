@@ -1,0 +1,769 @@
+package Transactions;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JFormattedTextField;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.JCheckBox;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.KeyStroke;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+
+import FindUI.Customer;
+
+import com.mysql.jdbc.StringUtils;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.JScrollBar;
+import java.awt.Dimension;
+
+public class LoanApplicationTransaction extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField customerid_la_text=null;
+	private JTextField city_la_text;
+	private JTextField phone_la_text;
+	private JTextField mobile_la_text;
+	private JTextField email_la_text;
+	private JTextField pin_la_text;
+	private JTextField altphone_text;
+	private JTextField altmobile_la_text;
+	private JTextField formno_text;
+	public static JTextField name_la_text;
+	private JTextField fathersname_la_text;
+	private JTextField address_la_text;
+	private JTextField loanamount_la_text;
+	private JTextField chequeno_la_text;
+	private JTextField loanbank_la_text;
+	private JTextField period_la_text;
+	private JTextField guarantor_la_text;
+	private JTextField guarantorphone_la_text;
+	private JTextField guarantormobile_text;
+	private JTextField guarantoraltmobile_text;
+	private JTextField interestrate_la_text;
+	private JTextField penalty_la_text;
+	private JTextField emi_la_text;
+	private JTextField customerbank_la_text;
+	private JTextField customeraddress_la_text;
+	private JTextField customercequeno_la_text;
+	private JTextField textField_26;
+	public Statement st;
+	private JTextField textField;
+
+	
+	public void setCustomerDetails(ResultSet res) throws SQLException {
+		name_la_text.setText(res.getString("NameOfPerson"));
+		fathersname_la_text.setText(res.getString("FathersName"));
+		address_la_text.setText(res.getString("Address"));
+		city_la_text.setText(res.getString("City"));
+		pin_la_text.setText(res.getString("Pin"));
+		phone_la_text.setText(res.getString("Phone1"));
+		altphone_text.setText(res.getString("Phone2"));
+		mobile_la_text.setText(res.getString("Mobile1"));
+		altmobile_la_text.setText(res.getString("Mobile2"));
+		email_la_text.setText(res.getString("Email"));
+	
+}
+	
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoanApplicationTransaction frame = new LoanApplicationTransaction();
+					frame.setVisible(true);
+					//frame.setSize(1100,600);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public LoanApplicationTransaction() {
+		setTitle("Loan Application");
+		//setSize(1113,690);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1113, 724);
+		contentPane = new JPanel();
+		contentPane.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+			}
+		});
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JComboBox<String> agent_la_combo = new JComboBox();
+		agent_la_combo.addItem(null);
+		try {
+			databaseConnectivity();
+			ResultSet res=st.executeQuery("SELECT * FROM agent_master ");
+			while(res.next())
+			{
+			agent_la_combo.addItem(res.getString("AgentName"));
+			}
+			} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		agent_la_combo.setFocusable(false);
+		agent_la_combo.setBounds(113, 17, 305, 20);
+		
+		contentPane.add(agent_la_combo);
+
+		JLabel lblAgent = new JLabel("Agent");
+		lblAgent.setBounds(22, 20, 46, 14);
+
+		contentPane.add(lblAgent);
+
+		JLabel lblOffice = new JLabel("Office");
+		lblOffice.addComponentListener(new ComponentAdapter() {
+
+
+		});
+		lblOffice.setBounds(22, 50, 46, 14);
+		contentPane.add(lblOffice);
+
+		JComboBox<String> office_la_combo = new JComboBox();
+		try {
+			databaseConnectivity();
+			ResultSet res2=st.executeQuery("SELECT * FROM office_master ");
+			while(res2.next())
+			{
+			office_la_combo.addItem(res2.getString("OfficeName"));
+			}
+			} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		office_la_combo.setFocusable(false);
+		office_la_combo.setBounds(113, 48, 305, 20);
+		contentPane.add(office_la_combo);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Customer Details", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_4.setBounds(16, 127, 417, 297);
+		contentPane.add(panel_4);
+		panel_4.setLayout(null);
+		
+				JLabel lblCustomerId = new JLabel("CustomerId");
+				lblCustomerId.setBounds(10, 42, 77, 14);
+				panel_4.add(lblCustomerId);
+				
+						JLabel lblCity = new JLabel("City");
+						lblCity.setBounds(10, 162, 77, 14);
+						panel_4.add(lblCity);
+						
+								JLabel lblPhone = new JLabel("Phone");
+								lblPhone.setBounds(10, 192, 77, 14);
+								panel_4.add(lblPhone);
+								
+										JLabel lblMobile = new JLabel("Mobile");
+										lblMobile.setBounds(10, 222, 77, 14);
+										panel_4.add(lblMobile);
+										
+												JLabel lblEmail = new JLabel("Email");
+												lblEmail.setBounds(10, 252, 77, 14);
+												panel_4.add(lblEmail);
+												
+														customerid_la_text = new JTextField();
+														customerid_la_text.setBounds(101, 40, 305, 20);
+														panel_4.add(customerid_la_text);
+														customerid_la_text.getDocument().addDocumentListener(new DocumentListener() {
+
+															@Override
+															public void changedUpdate(DocumentEvent arg0) {
+																// TODO Auto-generated method stub
+																System.out.println("hi");
+															}
+
+															@Override
+															public void insertUpdate(DocumentEvent arg0) {
+																// TODO Auto-generated method stub
+																
+																	System.out.println("hi");
+																	
+															}
+
+															
+															@Override
+															public void removeUpdate(DocumentEvent arg0) {
+																// TODO Auto-generated method stub
+																clearCustomerDetails();
+															
+															}
+															// implement the methods
+
+															public void clearCustomerDetails() {
+																name_la_text.setText(null);
+																fathersname_la_text.setText(null);
+																address_la_text.setText(null);
+																city_la_text.setText(null);
+																pin_la_text.setText(null);
+																phone_la_text.setText(null);
+																altmobile_la_text.setText(null);
+																altphone_text.setText(null);
+																mobile_la_text.setText(null);
+																email_la_text.setText(null);
+															}
+														});
+														customerid_la_text.setColumns(10);
+														
+																city_la_text = new JTextField();
+																city_la_text.setBounds(101, 160, 86, 20);
+																panel_4.add(city_la_text);
+																city_la_text.setColumns(10);
+																
+																		phone_la_text = new JTextField();
+																		phone_la_text.setBounds(101, 190, 86, 20);
+																		panel_4.add(phone_la_text);
+																		phone_la_text.setColumns(10);
+																		
+																				mobile_la_text = new JTextField();
+																				mobile_la_text.setBounds(101, 220, 86, 20);
+																				panel_4.add(mobile_la_text);
+																				mobile_la_text.setColumns(10);
+																				
+																						email_la_text = new JTextField();
+																						email_la_text.setBounds(101, 250, 308, 20);
+																						panel_4.add(email_la_text);
+																						email_la_text.setColumns(10);
+																						
+																								JLabel lblPin = new JLabel("Pin");
+																								lblPin.setBounds(223, 162, 46, 14);
+																								panel_4.add(lblPin);
+																								
+																										JLabel lblAlternatePhone = new JLabel("Alternate Phone");
+																										lblAlternatePhone.setBounds(223, 192, 108, 14);
+																										panel_4.add(lblAlternatePhone);
+																										
+																												JLabel lblAlternateMobile = new JLabel("Alternate Mobile");
+																												lblAlternateMobile.setBounds(223, 222, 108, 14);
+																												panel_4.add(lblAlternateMobile);
+																												
+																														pin_la_text = new JTextField();
+																														pin_la_text.setBounds(322, 159, 86, 20);
+																														panel_4.add(pin_la_text);
+																														pin_la_text.setColumns(10);
+																														
+																																altphone_text = new JTextField();
+																																altphone_text.setBounds(322, 189, 86, 20);
+																																panel_4.add(altphone_text);
+																																altphone_text.setColumns(10);
+																																
+																																		altmobile_la_text = new JTextField();
+																																		altmobile_la_text.setBounds(322, 219, 86, 20);
+																																		panel_4.add(altmobile_la_text);
+																																		altmobile_la_text.setColumns(10);
+																																		
+																																				JLabel label = new JLabel("Name");
+																																				label.setBounds(10, 72, 46, 14);
+																																				panel_4.add(label);
+																																				
+																																						name_la_text = new JTextField();
+																																						name_la_text.setBounds(101, 70, 212, 20);
+																																						panel_4.add(name_la_text);
+																																						name_la_text.setColumns(10);
+																																						
+																																								JLabel label_1 = new JLabel("Father's Name");
+																																								label_1.setBounds(10, 102, 85, 14);
+																																								panel_4.add(label_1);
+																																								
+																																										fathersname_la_text = new JTextField();
+																																										fathersname_la_text.setBounds(101, 101, 305, 20);
+																																										panel_4.add(fathersname_la_text);
+																																										fathersname_la_text.setColumns(10);
+																																										
+																																												JLabel label_2 = new JLabel("Address");
+																																												label_2.setBounds(10, 132, 46, 14);
+																																												panel_4.add(label_2);
+																																												
+																																														address_la_text = new JTextField();
+																																														address_la_text.setBounds(101, 130, 305, 20);
+																																														panel_4.add(address_la_text);
+																																														address_la_text.setColumns(10);
+																																														
+																																														JButton btnNewButton = new JButton("AutoFill");
+																																														btnNewButton.setBounds(322, 71, 84, 20);
+																																														panel_4.add(btnNewButton);
+																																														btnNewButton.addActionListener(new ActionListener() {
+																																															public void actionPerformed(ActionEvent e) {
+																																																try {
+																																																	databaseConnectivity();
+																																																	Statement st1=st;
+																																																	String customername=customerid_la_text.getText().toString();
+																																																	if(customername!=null)
+																																																	{
+																																																		ResultSet res=st1.executeQuery("SELECT * FROM customer_master where NameOfPerson='Namit Deshpande'");// c INNER JOIN loanapplication_transaction l	ON c.CustomerId=l.CustomerId WHERE NameOfPerson ='Namit Deshpande'");// LIKE '%"+customername+"%'");	
+																																																	
+																																																	if(res.next())
+																																																	{
+																																																		setCustomerDetails(res);
+																																																	}
+																																																	}
+																																																} catch (ClassNotFoundException e1) {
+																																																	// TODO Auto-generated catch block
+																																																	e1.printStackTrace();
+																																																} catch (SQLException e1) {
+																																																	// TODO Auto-generated catch block
+																																																	e1.printStackTrace();
+																																																}
+
+																																																
+																																															}
+																																														});
+				lblCustomerId.addComponentListener(new ComponentAdapter() {
+					@Override
+					public void componentResized(ComponentEvent e) {
+					}
+				});
+
+		JLabel lblFormNo = new JLabel("Form No");
+		lblFormNo.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+			}
+		});
+		lblFormNo.setBounds(22, 80, 77, 14);
+		contentPane.add(lblFormNo);
+
+		formno_text = new JTextField();
+		formno_text.setColumns(10);
+		formno_text.setBounds(113, 78, 86, 20);
+		contentPane.add(formno_text);
+
+		JLabel lblDate = new JLabel("Date");
+		lblDate.setBounds(235, 83, 63, 14);
+		contentPane.add(lblDate);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Loan Application", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBounds(441, 20, 484, 218);
+		contentPane.add(panel_2);
+		panel_2.setLayout(null);
+
+		JLabel lblLoanAmount = new JLabel("Loan Amount");
+		lblLoanAmount.setBounds(10, 35, 91, 14);
+		panel_2.add(lblLoanAmount);
+
+		loanamount_la_text = new JTextField();
+		loanamount_la_text.setBounds(125, 32, 112, 20);
+		panel_2.add(loanamount_la_text);
+		loanamount_la_text.setColumns(10);
+		
+				JLabel lblNewLabel_1 = new JLabel("Guarantor");
+				lblNewLabel_1.setBounds(10, 65, 75, 14);
+				panel_2.add(lblNewLabel_1);
+				
+						guarantor_la_text = new JTextField();
+						guarantor_la_text.setBounds(124, 62, 344, 20);
+						panel_2.add(guarantor_la_text);
+						guarantor_la_text.setColumns(10);
+						
+								JLabel lblNewLabel_2 = new JLabel("Guarantor Address");
+								lblNewLabel_2.setBounds(10, 95, 112, 14);
+								panel_2.add(lblNewLabel_2);
+								
+										JLabel lblNewLabel_3 = new JLabel("Guarantor Phone");
+										lblNewLabel_3.setBounds(10, 153, 112, 14);
+										panel_2.add(lblNewLabel_3);
+										
+												guarantorphone_la_text = new JTextField();
+												guarantorphone_la_text.setBounds(125, 149, 344, 20);
+												panel_2.add(guarantorphone_la_text);
+												guarantorphone_la_text.setColumns(10);
+												
+														JLabel lblNewLabel_4 = new JLabel("Mobile");
+														lblNewLabel_4.setBounds(10, 185, 77, 14);
+														panel_2.add(lblNewLabel_4);
+														
+																guarantormobile_text = new JTextField();
+																guarantormobile_text.setBounds(124, 182, 113, 20);
+																panel_2.add(guarantormobile_text);
+																guarantormobile_text.setColumns(10);
+																
+																		JTextArea guarantoraddress_la_text = new JTextArea();
+																		guarantoraddress_la_text.setBounds(125, 89, 344, 50);
+																		panel_2.add(guarantoraddress_la_text);
+																		guarantoraddress_la_text.setBorder(UIManager.getBorder("TextField.border"));
+																		
+																				JLabel lblAlternateMobile_1 = new JLabel("Alternate Mobile");
+																				lblAlternateMobile_1.setBounds(258, 185, 108, 14);
+																				panel_2.add(lblAlternateMobile_1);
+																				
+																						guarantoraltmobile_text = new JTextField();
+																						guarantoraltmobile_text.setBounds(355, 182, 113, 20);
+																						panel_2.add(guarantoraltmobile_text);
+																						guarantoraltmobile_text.setColumns(10);
+																						
+																						JLabel label_3 = new JLabel("Date");
+																						label_3.setBounds(258, 35, 91, 14);
+																						panel_2.add(label_3);
+																						
+																						JFormattedTextField formattedTextField = new JFormattedTextField();
+																						formattedTextField.setBounds(355, 35, 113, 20);
+																						panel_2.add(formattedTextField);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Loan Sanction", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_3.setBounds(442, 260, 484, 217);
+		contentPane.add(panel_3);
+		panel_3.setLayout(null);
+
+		JLabel lblFormOfPayment = new JLabel("Form Of Payment");
+		lblFormOfPayment.setBounds(10, 37, 99, 14);
+		panel_3.add(lblFormOfPayment);
+
+		JComboBox <String> formofpayment_la_combo = new JComboBox();
+		formofpayment_la_combo.setBounds(126, 34, 113, 20);
+		panel_3.add(formofpayment_la_combo);
+		
+				JLabel lblChequeNo = new JLabel("EMI");
+				lblChequeNo.setBounds(281, 157, 91, 14);
+				panel_3.add(lblChequeNo);
+				
+						chequeno_la_text = new JTextField();
+						chequeno_la_text.setBounds(126, 94, 112, 20);
+						panel_3.add(chequeno_la_text);
+						chequeno_la_text.setColumns(10);
+						
+								JLabel lblDate_1 = new JLabel("Date");
+								lblDate_1.setBounds(281, 37, 91, 14);
+								panel_3.add(lblDate_1);
+								
+										JFormattedTextField chequedate_la_text = new JFormattedTextField();
+										chequedate_la_text.setBounds(358, 34, 113, 20);
+										panel_3.add(chequedate_la_text);
+										
+												JLabel lblBank = new JLabel("Bank");
+												lblBank.setBounds(10, 97, 46, 14);
+												panel_3.add(lblBank);
+												
+														loanbank_la_text = new JTextField();
+														loanbank_la_text.setBounds(357, 94, 113, 20);
+														panel_3.add(loanbank_la_text);
+														loanbank_la_text.setColumns(10);
+														
+																JLabel lblNetAmt = new JLabel("Net Amount");
+																lblNetAmt.setBounds(10, 157, 75, 14);
+																panel_3.add(lblNetAmt);
+																
+																		JLabel lblNewLabel = new JLabel("Period (D)");
+																		lblNewLabel.setBounds(281, 67, 91, 14);
+																		panel_3.add(lblNewLabel);
+																		
+																				period_la_text = new JTextField();
+																				period_la_text.setBounds(358, 63, 113, 20);
+																				panel_3.add(period_la_text);
+																				period_la_text.setColumns(10);
+																				
+																						JLabel lblInterestRate = new JLabel("Interest Rate (%)");
+																						lblInterestRate.setBounds(10, 127, 104, 14);
+																						panel_3.add(lblInterestRate);
+																						
+																								JLabel lblPenalty = new JLabel("Penalty");
+																								lblPenalty.setBounds(281, 125, 91, 14);
+																								panel_3.add(lblPenalty);
+																								
+																										interestrate_la_text = new JTextField();
+																										interestrate_la_text.setBounds(127, 127, 112, 20);
+																										panel_3.add(interestrate_la_text);
+																										interestrate_la_text.setColumns(10);
+																										
+																												penalty_la_text = new JTextField();
+																												penalty_la_text.setBounds(358, 125, 113, 20);
+																												panel_3.add(penalty_la_text);
+																												penalty_la_text.setColumns(10);
+																												
+																														emi_la_text = new JTextField();
+																														emi_la_text.setBounds(358, 154, 113, 20);
+																														panel_3.add(emi_la_text);
+																														emi_la_text.setColumns(10);
+																														
+																																JComboBox <String> loantype_la_text = new JComboBox();
+																																loantype_la_text.setBounds(126, 65, 112, 20);
+																																panel_3.add(loantype_la_text);
+																																
+																																JLabel lblLoanType = new JLabel("Loan Type");
+																																lblLoanType.setBounds(10, 67, 89, 14);
+																																panel_3.add(lblLoanType);
+																																
+																																textField = new JTextField();
+																																textField.setBounds(126, 154, 113, 20);
+																																panel_3.add(textField);
+																																textField.setColumns(10);
+																																
+																																JLabel lblEmi = new JLabel("Cheque");
+																																lblEmi.setBounds(281, 97, 46, 14);
+																																panel_3.add(lblEmi);
+																																loantype_la_text.addItem(null);
+																																loantype_la_text.addItem("Daily");
+																																loantype_la_text.addItem("Monthly");
+																																loantype_la_text.addItem("Yearly");
+		formofpayment_la_combo.addItem(null);
+		formofpayment_la_combo.addItem("Cash");
+		formofpayment_la_combo.addItem("Cheque");
+
+		JFormattedTextField date_text = new JFormattedTextField();
+		date_text.setBounds(334, 77, 84, 20);
+		contentPane.add(date_text);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Bank Details", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(441, 488, 521, 123);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+
+		JLabel lblBank_1 = new JLabel("Bank");
+		lblBank_1.setBounds(10, 33, 46, 14);
+		panel_1.add(lblBank_1);
+
+		JLabel lblAddress = new JLabel("Address");
+		lblAddress.setBounds(10, 63, 56, 14);
+		panel_1.add(lblAddress);
+
+		JLabel lblChequeNo_1 = new JLabel("Cheque No.");
+		lblChequeNo_1.setBounds(10, 93, 91, 14);
+		panel_1.add(lblChequeNo_1);
+
+		customerbank_la_text = new JTextField();
+		customerbank_la_text.setBounds(124, 30, 344, 20);
+		panel_1.add(customerbank_la_text);
+		customerbank_la_text.setColumns(10);
+
+		customeraddress_la_text = new JTextField();
+		customeraddress_la_text.setBounds(124, 60, 344, 20);
+		panel_1.add(customeraddress_la_text);
+		customeraddress_la_text.setColumns(10);
+
+		customercequeno_la_text = new JTextField();
+		customercequeno_la_text.setBounds(123, 90, 345, 20);
+		panel_1.add(customercequeno_la_text);
+		customercequeno_la_text.setColumns(10);
+
+		JButton button = new JButton("Clear");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+			}
+		});
+		button.setBounds(563, 639, 99, 23);
+		contentPane.add(button);
+
+		JButton btn_la_delete = new JButton("Delete");
+		btn_la_delete.setEnabled(false);
+		btn_la_delete.setBounds(454, 639, 99, 23);
+		contentPane.add(btn_la_delete);
+
+		JButton btn_la_right = new JButton("Right");
+		btn_la_right.setEnabled(false);
+		btn_la_right.setBounds(345, 639, 99, 23);
+		contentPane.add(btn_la_right);
+
+		JButton btn_la_find = new JButton("Find");
+		btn_la_find.setBounds(239, 639, 96, 23);
+		contentPane.add(btn_la_find);
+
+		JButton btn_la_left = new JButton("Left");
+		btn_la_left.setEnabled(false);
+		btn_la_left.setBounds(130, 639, 99, 23);
+		contentPane.add(btn_la_left);
+
+		
+		JButton btn_la_save = new JButton("Save");
+				btn_la_save.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					
+//						try {
+//							Connection conn;
+//							String dbuser = "root";
+//							String dbpassw = "mysql";
+//							String databasename = "fms";
+//							String url = "jdbc:mysql://localhost/" + databasename;
+//							Class.forName("com.mysql.jdbc.Driver");
+//							conn = DriverManager.getConnection (url, dbuser, dbpassw);
+//							Statement st = conn.createStatement();
+//		
+//							String nameofperson= nameofperson_text.getText().toString();
+//		
+//		
+//							String fathersname= fathersname_text.getText().toString();					
+//							String address= address_text.getText().toString();
+//							String city= city_text.getText().toString();
+//							String phone1= phone1_text.getText().toString();
+//							String phone2= phone2_text.getText().toString();
+//							String mobile1= mobile1_text.getText().toString();
+//							if(mobile1=="")
+//								mobile1_text.setText(null);
+//							String mobile2= mobile2_text.getText().toString();
+//		
+//							String birthdate = birthdate_text.getText().toString();
+//		
+//							String anniversary= anniversary_text.getText().toString();
+//		
+//							//					if(anniversary.equals(""))
+//							//					anniversary_text.setText(null);
+//							String email=email_text.getText().toString();             
+//							String referredby=referredby_text.getText().toString();
+//							String mobileref=mobileref_text.getText().toString();
+//							String phoneref=phoneref_text.getText().toString();
+//							String penalty=penalty_text.getText().toString();
+//							String pin=pin_text.getText().toString();
+//							String interest=interestrate_text.getText().toString();
+//		
+//		
+//							//					st.executeUpdate("INSERT INTO customer_master (NameOfPerson, FathersName, Address, City, Pin, Phone1, Phone2, Mobile1, Mobile2, BirthDate, Anniversary, Email, ReferredBy, MobileRef, InterestRate, Penalty) VALUES ('"+nameofperson+"', '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', '"+birthdate+"', '"+anniversary+"', '"+email+"', '"+referredby+"', '"+mobileref+"', '"+interest+"', '"+penalty+"');");
+//							//					JOptionPane.showMessageDialog(save_button, "Data Successfully Added");
+//		
+//							ResultSet res=st.executeQuery("Select * from customer_master");		
+//							if(res.next()){
+//								if(nameofperson=="")
+//								{
+//									JOptionPane.showInputDialog(nameofperson_text);
+//		
+//								}
+//								//System.out.println("INSERT INTO customer_master (NameOfPerson, FathersName, Address, City, Pin, Phone1, Phone2, Mobile1, Mobile2, BirthDate, Anniversary, Email, ReferredBy, MobileRef, InterestRate, Penalty) VALUES ('"+nameofperson+"', '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', "+ (StringUtils.isEmptyOrWhitespaceOnly(birthdate)? "NULL": ("'" + birthdate + "'")) +", "+ (StringUtils.isEmptyOrWhitespaceOnly(anniversary)? "NULL": ("'" + anniversary + "'")) +", '"+email+"', '"+referredby+"', '"+mobileref+"', '"+interest+"', '"+penalty+"')");
+//		
+//								st.executeUpdate("INSERT INTO customer_master (NameOfPerson, FathersName, Address, City, Pin, Phone1, Phone2, Mobile1, Mobile2, BirthDate, Anniversary, Email, ReferredBy, MobileRef, InterestRate, Penalty) VALUES ('"+nameofperson+"', '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', "+ (StringUtils.isEmptyOrWhitespaceOnly(birthdate)? "NULL": ("'" + birthdate + "'")) +", "+ (StringUtils.isEmptyOrWhitespaceOnly(anniversary)? "NULL": ("'" + anniversary + "'")) +", '"+email+"', '"+referredby+"', '"+mobileref+"', '"+interest+"', '"+penalty+"')");
+//								JOptionPane.showMessageDialog(save_button, "Data Successfully Added");
+//							
+//							}
+//							
+//		
+//		
+//							else{
+//		
+//								if(nameofperson.isEmpty())
+//									JOptionPane.showMessageDialog(save_button, "Enter Customer name ");;
+//									System.out.println("INSERT INTO customer_master (CustomerId, NameOfPerson, FathersName, Address, City, Pin, Phone1, Phone2, Mobile1, Mobile2, BirthDate, Anniversary, Email, ReferredBy, MobileRef, InterestRate, Penalty) VALUES ('1', '"+nameofperson+"', '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', "+ (StringUtils.isEmptyOrWhitespaceOnly(birthdate)? "NULL": ("'" + birthdate + "'")) +", "+ (StringUtils.isEmptyOrWhitespaceOnly(anniversary)? "NULL": ("'" + anniversary + "'")) +" ,'"+email+"', '"+referredby+"', '"+mobileref+"', '"+interest+"', '"+penalty+"')");
+//									st.executeUpdate("INSERT INTO `fms`.`loanapplication_transaction` (`LoanId`, `AgentId`, `OfficeId`, `FormNo`, `FormDate`, `CustomerId`, `LoanAmount`, `LoanThrough`, `ChequeNo`, `ChequeDate`, `LoanBank`) VALUES ('1', '1', '12', '1', '1992/10/10', '1', '100', '', '21', '1992/01/01', ''");
+//									JOptionPane.showMessageDialog(save_button, "Data Successfully Added");
+//									Master.CustomerMaster.clearScreen();
+//							}
+//		
+//		
+//		
+//						}
+//						catch ( ClassNotFoundException e ) {
+//							JOptionPane.showMessageDialog(save_button,e.getMessage());
+//						}
+//						catch(SQLException e) {
+//		
+//							JOptionPane.showMessageDialog(save_button,"Please contact the Software Developer and notify that a SQL error occurred on login.");
+//							e.printStackTrace();
+//							frame.dispose();
+//						}
+//		
+//		
+//		
+//						
+					}			
+				});
+		btn_la_save.setBounds(22, 639, 99, 23);
+		contentPane.add(btn_la_save);
+
+		JButton btnLoanChart = new JButton("Loan Chart");
+		btnLoanChart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnLoanChart.setBounds(672, 639, 97, 23);
+		contentPane.add(btnLoanChart);
+
+		textField_26 = new JTextField();
+		textField_26.setBounds(952, 17, 122, 111);
+		contentPane.add(textField_26);
+		textField_26.setColumns(10);
+
+		JLabel lblNewLabel_5 = new JLabel("Photo");
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setBounds(952, 145, 122, 14);
+		contentPane.add(lblNewLabel_5);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 435, 408, 55);
+		contentPane.add(scrollPane);
+		
+		JPanel panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		
+		JCheckBox checkBox = new JCheckBox("Bank Passbook");
+		panel.add(checkBox);
+		
+		JCheckBox checkBox_1 = new JCheckBox("Driving License");
+		panel.add(checkBox_1);
+		
+		JCheckBox checkBox_2 = new JCheckBox("Home Registry");
+		panel.add(checkBox_2);
+		
+		JCheckBox checkBox_3 = new JCheckBox("Credit Card");
+		panel.add(checkBox_3);
+		
+		JCheckBox checkBox_4 = new JCheckBox("Electricity Bill");
+		panel.add(checkBox_4);
+		
+		JCheckBox checkBox_5 = new JCheckBox("ITR");
+		panel.add(checkBox_5);
+	}
+
+
+	public Statement databaseConnectivity() throws ClassNotFoundException,
+			SQLException {
+		Connection conn;
+		String dbuser = "root";
+		String dbpassw = "mysql";
+		String databasename = "fms";
+		String url = "jdbc:mysql://localhost/" + databasename;
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection (url, dbuser, dbpassw);
+		st = conn.createStatement();
+		return st;
+	}
+}

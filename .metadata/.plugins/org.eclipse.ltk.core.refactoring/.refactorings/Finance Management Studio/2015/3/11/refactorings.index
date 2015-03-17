@@ -1,0 +1,7 @@
+1425975404621	Extract method 'showRecord'
+1425983109788	Extract method 'clearScreen'
+1426057358943	Delete element
+1426165551020	Extract method 'changeNavigationState'
+1426243163273	Delete element
+1426243576662	Delete element
+1426248684900	Move compilation units

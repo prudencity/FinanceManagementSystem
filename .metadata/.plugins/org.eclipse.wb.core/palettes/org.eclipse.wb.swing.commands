@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+	<addCategory
+		id="category_1425987858986"
+		name="Custom"
+		description="Container for custom components"
+		visible="true"
+		open="true"/>
+	<addComponent
+		id="custom_1425987858986"
+		name="Date"
+		description="Creates java.sql.Date component."
+		visible="true"
+		class="java.sql.Date"
+		category="category_1425987858986"/>
+	<moveCategory
+		id="org.eclipse.wb.swing.JGoodies"
+		nextCategory="org.eclipse.wb.swing.JGoodies"/>
+	<moveEntry
+		id="system.selection"
+		category="org.eclipse.wb.swing.system"
+		nextEntry="system.tabOrder"/>
+</commands>

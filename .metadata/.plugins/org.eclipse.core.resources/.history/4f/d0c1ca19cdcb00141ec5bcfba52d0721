@@ -1,0 +1,550 @@
+package Master;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.DebugGraphics;
+import javax.swing.JButton;
+
+import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
+
+import com.mysql.jdbc.StringUtils;
+
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.border.TitledBorder;
+
+public class GuarantorMaster extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField guarantorid_gm_text;
+	private JTextField nameofperson_gm_text;
+	private JTextField fathersname_gm_text;
+	public JTextArea address_gm_text;
+	private JTextField pin_gm_text;
+	private JTextField phone1_gm_text;
+	private JTextField mobile1_gm_text;
+	private JTextField email_gm_text;
+	private JTextField guarantorbank_gm_text;
+	private JTextField bankaddress_gm_text;
+	private JTextField chequedetails_gm_text;
+	private JTextField remarks_gm_text;
+	private JTextField city_gm_text;
+	private JTextField mobile2_gm_text;
+	private JTextField phone2_gm_text;
+	public ResultSet res;
+	public JButton btn_Left;
+	public JButton btn_Right;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuarantorMaster frame = new GuarantorMaster();
+					frame.setLocation(200,100);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	public void SetSearchResults(ResultSet rs) throws SQLException {
+		res = rs;
+		showRecord();
+
+	}
+
+
+	public void showRecord() throws SQLException {
+
+		guarantorid_gm_text.setText(res.getString("GuarantorId"));
+		nameofperson_gm_text.setText(res.getString("GuarantorName"));
+		fathersname_gm_text.setText(res.getString("GuarantorFatherName"));
+		address_gm_text.setText(res.getString("GuarantorAddress"));
+		city_gm_text.setText(res.getString("GuarantorCity"));
+		email_gm_text.setText(res.getString("GuarantorEmail"));
+		mobile1_gm_text.setText(res.getString("GuarntorMobile"));
+		mobile2_gm_text.setText(res.getString("GuarantorMobile2"));
+		phone1_gm_text.setText(res.getString("GuarantorPhone"));
+		phone2_gm_text.setText(res.getString("GuarantorPhone2"));
+		pin_gm_text.setText(res.getString("GuarantorPin"));
+		guarantorbank_gm_text.setText(res.getString("GuarantorBank"));
+		bankaddress_gm_text.setText("GuarantorbankAddress");
+		chequedetails_gm_text.setText("GuarantorChequeDetails");
+		
+	}
+	
+	public void changeNavigationState() throws SQLException {
+		if(res.isFirst())
+		{
+			btn_Left.setEnabled(false);
+		}
+		else {
+			btn_Left.setEnabled(true);
+		}
+
+		if(res.isLast())
+		{
+			btn_Right.setEnabled(false);
+		}
+		else {
+			btn_Right.setEnabled(true);
+		}
+	}
+	/**
+	 * Create the frame.
+	 */
+	public GuarantorMaster() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 821, 626);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panel.setBounds(0, 0, 860, 507);
+		contentPane.add(panel);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Guarantor Details", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBounds(6, 0, 549, 304);
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblGuarantorid = new JLabel("GuarantorId");
+		lblGuarantorid.setBounds(25, 16, 92, 14);
+		panel_2.add(lblGuarantorid);
+		
+		JLabel label_1 = new JLabel("Name of Person *");
+		label_1.setBounds(25, 46, 133, 14);
+		panel_2.add(label_1);
+		
+		JLabel label_2 = new JLabel("Father's Name");
+		label_2.setBounds(25, 76, 102, 14);
+		panel_2.add(label_2);
+		
+		JLabel label_3 = new JLabel("Address");
+		label_3.setBounds(25, 106, 80, 14);
+		panel_2.add(label_3);
+		
+		JLabel label_4 = new JLabel("City");
+		label_4.setBounds(25, 166, 46, 14);
+		panel_2.add(label_4);
+		
+		JLabel label_5 = new JLabel("Phone");
+		label_5.setBounds(25, 196, 46, 14);
+		panel_2.add(label_5);
+		
+		JLabel label_6 = new JLabel("Mobile");
+		label_6.setBounds(25, 226, 46, 14);
+		panel_2.add(label_6);
+		
+		JLabel label_9 = new JLabel("Email");
+		label_9.setBounds(25, 256, 46, 14);
+		panel_2.add(label_9);
+		
+		JLabel label_13 = new JLabel("Pin");
+		label_13.setBounds(315, 172, 46, 14);
+		panel_2.add(label_13);
+		
+		JLabel label_14 = new JLabel("Alternate Phone");
+		label_14.setBounds(286, 199, 111, 14);
+		panel_2.add(label_14);
+		label_14.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel label_15 = new JLabel("Mobile");
+		label_15.setBounds(315, 229, 46, 14);
+		panel_2.add(label_15);
+		
+		guarantorid_gm_text = new JTextField();
+		guarantorid_gm_text.setBounds(136, 16, 391, 20);
+		panel_2.add(guarantorid_gm_text);
+		guarantorid_gm_text.setToolTipText("You cannot enter");
+		guarantorid_gm_text.setText((String) null);
+		guarantorid_gm_text.setEditable(false);
+		guarantorid_gm_text.setColumns(10);
+		
+		nameofperson_gm_text = new JTextField();
+		nameofperson_gm_text.setBounds(136, 46, 391, 20);
+		panel_2.add(nameofperson_gm_text);
+		nameofperson_gm_text.setToolTipText("Enter Full Name");
+		nameofperson_gm_text.setColumns(10);
+		
+		fathersname_gm_text = new JTextField();
+		fathersname_gm_text.setBounds(136, 76, 391, 20);
+		panel_2.add(fathersname_gm_text);
+		fathersname_gm_text.setText((String) null);
+		fathersname_gm_text.setColumns(10);
+		
+		address_gm_text = new JTextArea();
+		address_gm_text.setBounds(136, 106, 391, 49);
+		panel_2.add(address_gm_text);
+		address_gm_text.setText((String) null);
+		address_gm_text.setLineWrap(true);
+		address_gm_text.setDebugGraphicsOptions(DebugGraphics.NONE_OPTION);
+		address_gm_text.setColumns(10);
+		address_gm_text.setBorder(UIManager.getBorder("TextField.border"));
+		
+		pin_gm_text = new JTextField();
+		pin_gm_text.setBounds(407, 166, 120, 20);
+		panel_2.add(pin_gm_text);
+		pin_gm_text.setText((String) null);
+		pin_gm_text.setColumns(10);
+		
+		phone1_gm_text = new JTextField();
+		phone1_gm_text.setBounds(136, 196, 120, 20);
+		panel_2.add(phone1_gm_text);
+		phone1_gm_text.setText((String) null);
+		phone1_gm_text.setColumns(10);
+		
+		mobile1_gm_text = new JTextField();
+		mobile1_gm_text.setBounds(136, 226, 120, 20);
+		panel_2.add(mobile1_gm_text);
+		mobile1_gm_text.setText((String) null);
+		mobile1_gm_text.setColumns(10);
+		
+		email_gm_text = new JTextField();
+		email_gm_text.setBounds(136, 259, 391, 20);
+		panel_2.add(email_gm_text);
+		email_gm_text.setText((String) null);
+		email_gm_text.setColumns(10);
+		
+		city_gm_text = new JTextField();
+		city_gm_text.setBounds(136, 166, 120, 20);
+		panel_2.add(city_gm_text);
+		city_gm_text.setText((String) null);
+		city_gm_text.setColumns(10);
+		
+		mobile2_gm_text = new JTextField();
+		mobile2_gm_text.setBounds(407, 226, 120, 20);
+		panel_2.add(mobile2_gm_text);
+		mobile2_gm_text.setText((String) null);
+		mobile2_gm_text.setColumns(10);
+		
+		phone2_gm_text = new JTextField();
+		phone2_gm_text.setBounds(407, 196, 120, 20);
+		panel_2.add(phone2_gm_text);
+		phone2_gm_text.setText((String) null);
+		phone2_gm_text.setColumns(10);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setName("");
+		panel_1.setInheritsPopupMenu(true);
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Bank Details", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(10, 333, 559, 174);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblRemarks = new JLabel("Remarks");
+		lblRemarks.setBounds(10, 121, 80, 14);
+		panel_1.add(lblRemarks);
+		
+		JLabel lblGuarantorBank = new JLabel("Guarantor Bank");
+		lblGuarantorBank.setBounds(10, 31, 120, 14);
+		panel_1.add(lblGuarantorBank);
+		
+		JLabel lblBankAddress = new JLabel("Bank Address");
+		lblBankAddress.setBounds(10, 61, 92, 14);
+		panel_1.add(lblBankAddress);
+		
+		JLabel lblChequeDetails = new JLabel("Cheque Details");
+		lblChequeDetails.setBounds(10, 91, 92, 14);
+		panel_1.add(lblChequeDetails);
+		
+		guarantorbank_gm_text = new JTextField();
+		guarantorbank_gm_text.setBounds(140, 28, 391, 20);
+		panel_1.add(guarantorbank_gm_text);
+		guarantorbank_gm_text.setText((String) null);
+		guarantorbank_gm_text.setColumns(10);
+		
+		bankaddress_gm_text = new JTextField();
+		bankaddress_gm_text.setBounds(140, 58, 391, 20);
+		panel_1.add(bankaddress_gm_text);
+		bankaddress_gm_text.setText((String) null);
+		bankaddress_gm_text.setColumns(10);
+		
+		chequedetails_gm_text = new JTextField();
+		chequedetails_gm_text.setBounds(140, 88, 391, 20);
+		panel_1.add(chequedetails_gm_text);
+		chequedetails_gm_text.setColumns(10);
+		
+		remarks_gm_text = new JTextField();
+		remarks_gm_text.setBounds(140, 118, 391, 41);
+		panel_1.add(remarks_gm_text);
+		remarks_gm_text.setColumns(10);
+		
+		JLabel label_19 = new JLabel("Photo");
+		label_19.setHorizontalAlignment(SwingConstants.CENTER);
+		label_19.setBounds(602, 186, 143, 14);
+		panel.add(label_19);
+		
+		JLabel photo_set = new JLabel("");
+		photo_set.setOpaque(true);
+		photo_set.setBorder(UIManager.getBorder("TextField.border"));
+		photo_set.setBackground(Color.WHITE);
+		photo_set.setBounds(605, 19, 140, 140);
+		panel.add(photo_set);
+		
+		JButton button_4 = new JButton("Clear");
+		button_4.setBounds(487, 531, 66, 23);
+		contentPane.add(button_4);
+		
+		JButton btn_delete = new JButton("Delete");
+		btn_delete.setBounds(393, 531, 71, 23);
+		contentPane.add(btn_delete);
+		
+		JButton btn_Right_1 = new JButton("Right");
+		btn_Right_1.setBounds(302, 531, 66, 23);
+		contentPane.add(btn_Right_1);
+		
+		JButton btn_Find = new JButton("Find");
+		btn_Find.setBounds(209, 531, 66, 23);
+		contentPane.add(btn_Find);
+		
+		JButton btn_Left_1 = new JButton("Left");
+		btn_Left_1.setBounds(123, 531, 66, 23);
+		contentPane.add(btn_Left_1);
+		
+		JButton btn_save = new JButton("Save");
+		btn_save.setBounds(32, 531, 71, 23);
+		contentPane.add(btn_save);
+		btn_save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+
+				try {
+					Connection conn;
+					String dbuser = "root";
+					String dbpassw = "mysql";
+					String databasename = "fms";
+					String url = "jdbc:mysql://localhost/" + databasename;
+					Class.forName("com.mysql.jdbc.Driver");
+					conn = DriverManager.getConnection (url, dbuser, dbpassw);
+					Statement st = conn.createStatement();
+
+					String nameofperson= nameofperson_gm_text.getText().toString();
+					String fathersname= fathersname_gm_text.getText().toString();					
+					String address= address_gm_text.getText().toString();
+					String city= city_gm_text.getText().toString();
+					String pin=pin_gm_text.getText().toString();
+					String phone1= phone1_gm_text.getText().toString();
+					String phone2= phone2_gm_text.getText().toString();
+					String mobile1= mobile1_gm_text.getText().toString();
+					String mobile2= mobile2_gm_text.getText().toString();
+					String email=email_gm_text.getText().toString();             
+					String guarantorbank=guarantorbank_gm_text.getText().toString();
+					String bankaddress=bankaddress_gm_text.getText().toString();
+					String chequedetails=chequedetails_gm_text.getText().toString();
+				
+
+					ResultSet res=st.executeQuery("Select * from guarantor_master");		
+					if(res.next()){
+						if(nameofperson=="")
+						{
+							JOptionPane.showInputDialog(nameofperson_gm_text);
+
+						}
+						st.executeUpdate("INSERT INTO `fms`.`guarantor_master` (`GuarantorName`, `GuarantorFatherName`, `GuarantorAddress`, `GuarantorCity`, `GuarantorPin`, `GuarantorPhone`, `GuarantorPhone2`, `GuarntorMobile`, `GuarantorMobile2`, `GuarantorEmail`, `GuarantorBank`, `GuarantorBankAddress`, `GuarantorChequeDetails`) VALUES ('"+nameofperson+", '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', '"+email+"', '"+guarantorbank+"', '"+bankaddress+"', '"+chequedetails+"');");
+						JOptionPane.showMessageDialog(btn_save, "Data Successfully Added");
+						clearScreen();
+						Transactions.LoanApplicationTransaction la=new Transactions.LoanApplicationTransaction();
+						la.setVisible(true);
+						la.name_la_text.setText(nameofperson);
+						dispose();
+					}
+
+
+					else{
+							st.executeUpdate("INSERT INTO `fms`.`guarantor_master` (`GuarantorId`, `GuarantorName`, `GuarantorFatherName`, `GuarantorAddress`, `GuarantorCity`, `GuarantorPin`, `GuarantorPhone`, `GuarantorPhone2`, `GuarntorMobile`, `GuarantorMobile2`, `GuarantorEmail`, `GuarantorBank`, `GuarantorBankAddress`, `GuarantorChequeDetails`) VALUES ('1', '"+nameofperson+", '"+fathersname+"', '"+address+"', '"+city+"', '"+pin+"', '"+phone1+"', '"+phone2+"', '"+mobile1+"', '"+mobile2+"', '"+email+"', '"+guarantorbank+"', '"+bankaddress+"', '"+chequedetails+"');");
+							JOptionPane.showMessageDialog(btn_save, "Data Successfully Added");
+							Transactions.LoanApplicationTransaction la=new Transactions.LoanApplicationTransaction();
+							la.setVisible(true);
+							dispose();
+					}
+
+
+
+				}
+				catch ( ClassNotFoundException e ) {
+					JOptionPane.showMessageDialog(btn_save,e.getMessage());
+				}
+				catch(SQLException e) {
+
+					JOptionPane.showMessageDialog(btn_save,"Please contact the Software Developer and notify that a SQL error occurred on login.");
+					e.printStackTrace();
+					dispose();
+				}
+
+
+
+			}
+		});
+		btn_Left_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					if (res.previous())
+					{		
+						showRecord();
+					}
+					changeNavigationState();
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btn_Find.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Connection conn;
+					String dbuser = "root";
+					String dbpassw = "mysql";
+					String databasename = "fms";
+					String url = "jdbc:mysql://localhost/" + databasename;
+					Class.forName("com.mysql.jdbc.Driver");
+					conn = DriverManager.getConnection (url, dbuser, dbpassw);
+					Statement st = conn.createStatement();
+
+					String name=nameofperson_gm_text.getText().toString();
+					if(name.equals(""))
+						name=null;
+				
+					String mobileno=mobile1_gm_text.getText().toString();
+					if (mobileno.equals(""))
+						mobileno="";
+					res=st.executeQuery("SELECT * FROM guarantor_master where "
+							+ "GuarantorName LIKE '%"+name+"%' OR GuarntorMobile='"+mobileno+"'"	);
+
+					if (!res.next() ) {
+						JOptionPane.showMessageDialog(btn_Find, "No records found");
+					} else {
+						SetSearchResults(res);
+					}
+				}
+				catch ( ClassNotFoundException e1 ) {
+					JOptionPane.showMessageDialog(btn_Find,e1.getMessage());
+				}
+				catch(SQLException e1) {
+					JOptionPane.showMessageDialog(btn_Find,"Please contact the Software Developer"
+							+ " and notify that a SQL error occurred on login.");
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btn_Right_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					if (res.next())
+					{
+						showRecord();
+					}
+					changeNavigationState();
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btn_delete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Connection conn;
+					String dbuser = "root";
+					String dbpassw = "mysql";
+					String databasename = "fms";
+					String url = "jdbc:mysql://localhost/" + databasename;
+					Class.forName("com.mysql.jdbc.Driver");
+					conn = DriverManager.getConnection (url, dbuser, dbpassw);
+					Statement st = conn.createStatement();
+
+
+					ResultSet res1=st.executeQuery("Select * from customer_master");
+					if(res1.next()){
+						int i=JOptionPane.showConfirmDialog(btn_delete, "Are you sure you want to delete this data?");
+						if(i == JOptionPane.YES_OPTION){
+							String nameofperson= nameofperson_gm_text.getText().toString();
+							int j=JOptionPane.showConfirmDialog(btn_delete, "Are you sure you want to delete guarantor "+nameofperson+"?");
+							if(j==JOptionPane.YES_OPTION)
+							{
+								st.executeUpdate("DELETE FROM customer_master WHERE NameofPerson='"+nameofperson+"'");							
+								JOptionPane.showMessageDialog(btn_delete, "Data Successfully Deleted");
+
+							}
+							clearScreen();
+						}
+
+
+						else{
+							JOptionPane.showMessageDialog(btn_delete, "No Records to delete");
+						}
+
+
+					}
+				}
+				catch ( ClassNotFoundException e1 ) {
+					JOptionPane.showMessageDialog(btn_delete,e1.getMessage());
+				}
+				catch(SQLException e1) {
+					JOptionPane.showMessageDialog(btn_delete,"Please contact the Software Developer and notify that a SQL error occurred on login.");
+				}
+			}
+		});
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clearScreen();
+			}
+		});
+	}
+
+	protected void clearScreen() {
+		// TODO Auto-generated method stub
+		guarantorid_gm_text.setText(null);
+		nameofperson_gm_text.setText(null);
+		fathersname_gm_text.setText(null);						
+		address_gm_text.setText(null);								
+		city_gm_text.setText(null);				
+		phone1_gm_text.setText(null);
+		mobile1_gm_text.setText(null);				
+		email_gm_text.setText(null);
+		guarantorbank_gm_text.setText(null);
+		bankaddress_gm_text.setText(null);
+		chequedetails_gm_text.setText(null);							
+		phone2_gm_text.setText(null);						
+		mobile2_gm_text.setText(null);			
+		pin_gm_text.setText(null);
+		
+	}
+
+}

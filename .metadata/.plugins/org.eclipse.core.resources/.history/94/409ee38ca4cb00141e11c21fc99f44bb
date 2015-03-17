@@ -1,0 +1,98 @@
+package Master;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+
+public class OfficeMaster extends JFrame {
+
+	private JPanel contentPane;
+	public static JTextField name_om_text;
+	public static JTextField address_om_text;
+	public static JTextField contact_om_text;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					OfficeMaster frame = new OfficeMaster();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public OfficeMaster() {
+		setTitle("Office Master");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel label = new JLabel("Name");
+		label.setBounds(17, 30, 56, 14);
+		contentPane.add(label);
+		
+		name_om_text = new JTextField();
+		name_om_text.setColumns(10);
+		name_om_text.setBounds(109, 30, 287, 20);
+		contentPane.add(name_om_text);
+		
+		JLabel label_1 = new JLabel("Address");
+		label_1.setBounds(17, 80, 56, 14);
+		contentPane.add(label_1);
+		
+		address_om_text = new JTextField();
+		address_om_text.setColumns(10);
+		address_om_text.setBounds(109, 80, 287, 20);
+		contentPane.add(address_om_text);
+		
+		JLabel label_2 = new JLabel("Contact");
+		label_2.setBounds(17, 130, 56, 14);
+		contentPane.add(label_2);
+		
+		contact_om_text = new JTextField();
+		contact_om_text.setColumns(10);
+		contact_om_text.setBounds(109, 130, 287, 20);
+		contentPane.add(contact_om_text);
+		
+		JButton btn_Save = new JButton("Save");
+		btn_Save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_Save.setBounds(10, 190, 89, 23);
+		contentPane.add(btn_Save);
+		
+		JButton button_1 = new JButton("Find");
+		button_1.setBounds(109, 190, 89, 23);
+		contentPane.add(button_1);
+		
+		JButton button_2 = new JButton("Clear");
+		button_2.setBounds(208, 190, 89, 23);
+		contentPane.add(button_2);
+		
+		JButton button_3 = new JButton("Delete");
+		button_3.setBounds(307, 190, 89, 23);
+		contentPane.add(button_3);
+	}
+
+}
